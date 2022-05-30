@@ -1,0 +1,58 @@
+1. Create Tables as follows by choosing appropriate data type and 
+
+set the necessary primary and foreign key constraints: 
+
+Product (Prodid, Prodesc, Price, Stock) 
+
+Purchase (Purid, Proid, qty, supname) 
+
+Sales (Saleid, Proid, qty, custname) 
+
+a. Update the Stock of all products by 10. 
+
+Query: update product set stock=stock+10;
+
+b. Display products whose stock is <15 and order it by stock. 
+
+Query: select prodesc from product where stock<15 order by stock;
+
+c. Display list of product details (Prodid, Prodesc, Price) supplied by a 
+
+particular supplier(“ABC”). 
+
+Query: select prodid,prodesc,price from product where prodid in(select proid from 
+
+purchase where supname=”ABC”);
+
+d. Product ids and Sum of quantity purchased 
+
+Query: select sum(qty),proid from purchase group by proid;
+
+e. Product details (Prodid, Prodesc, Price) of products which are purchased as 
+
+well as sold. 
+
+Query: select prodid,prodesc,price from product where prodid in (select proid from 
+
+purchase intersect select proid from sales);
+
+f. Create a procedure which accepts a prodid and displays all the sales and 
+
+purchase records of it.
+
+
+Query: CREATE OR REPLACE PROCEDURE disp(pID IN sales.Proid%type)
+
+ 2 IS
+
+ 3 CURSOR emp_cur is
+
+ 4 Select * from sales where Proid = pID;
+
+ 5 emp_rec emp_cur%rowtype;
+
+ 6 BEGIN
+
+ 7 FOR emp_rec in emp_cur
+
+ 8 LOOP
