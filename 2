@@ -1,0 +1,59 @@
+9 dbms_output.put_line(emp_rec.Saleid ||' '|| emp_rec.Proid ||’ ‘|| emp_rec.qty ||’ ‘|| 
+
+emp_rec.custname);
+
+ 10 END LOOP;
+
+ 11 END;
+
+ 12 /
+
+Query: set serveroutput on
+
+Query: EXECUTE disp(2);
+
+2. Create Tables as follows by choosing appropriate data type and 
+
+set the necessary primary and foreign key constraints: 
+
+Product (Prodid, Prodesc, Price, Stock) 
+
+Purchase (Purid, Proid, qty) 
+
+a. Add a column customer name in Purchase table. 
+
+Query: alter table purchase add column(custname varchar(15);
+
+b. Productids which are not at all purchased. List of product details (Prodid, 
+
+Prodesc, Price) purchased by a particular customer. (“MATHEW”). 
+
+Query: select prodid, prodesc, price from product where prodid not in (select proid from 
+
+purchase where custname=”MATHEW”);
+
+c. The number of customers who made the purchases 
+
+Query: select distinct(custname) from purchase;
+
+d. List of the productids and total quantity purchased 
+
+Query: select sum(qty) ,proid from purchase group by proid;
+
+e. Product ids of the products which are purchased more than 5 times 
+
+Query: select count(proid),proid from purchase group by proid having count(proid)>2;
+
+f. Create a procedure to print the Prodid and qty when the Purid is given as the
+
+parameter. 
+
+Query: CREATE OR REPLACE PROCEDURE disp(pID IN purchase.Proid%type)
+
+ 2 IS
+
+ 3 CURSOR emp_cur is
+
+ 4 Select Proid, qty from purchase where Proid = pID;
+
+ 5 emp_rec emp_cur%rowtype;
