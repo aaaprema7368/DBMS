@@ -1,0 +1,59 @@
+6 BEGIN
+
+ 7 FOR emp_rec in emp_cur
+
+ 8 LOOP
+
+ 9 dbms_output.put_line(emp_rec.proid ||' '|| emp_rec.qty);
+
+ 10 END LOOP;
+
+ 11 END;
+
+ 12 /
+
+Query: set serveroutput on
+
+Query: EXECUTE disp(2);
+
+3. Create Tables as follows by choosing appropriate data type and 
+
+set the necessary primary and foreign key constraints: 
+
+Customer (Custid, Custname, Age, phno) 
+
+Loan (Loanid, Amount, Custid, Emi) 
+
+a. Customerids who have not taken Loan 
+
+Query: select custid from customer where custid not in (select custid from loan);
+
+b. Loan details (Loanid, Amount, Custid ) of Loan taken by a particular 
+
+customer(“JOHN”) 
+
+Query: select loanid, amount, custid from loan where custid in (select custid from 
+
+customer where custname=”JOHN”);
+
+c. The Total number of Loans aviailed 
+
+Query: select count(*) from loan;
+
+d. List of the customerids and total Loan amount taken 
+
+Query: select sum(amount),custid from loan group by custid;
+
+e. Customer ids who have taken less than 2 Loans 
+
+Query: select custid, count(custid) from loan group by custid havning count(custid)>2;
+
+f. Create a procedure to print the Amount and Custid when the Loanid is given 
+
+as the parameter. 
+
+Query: CREATE OR REPLACE PROCEDURE disp(pID IN Loan.Loanid%type)
+
+ 2 IS
+
+ 3 CURSOR emp_cur is
